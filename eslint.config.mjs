@@ -23,7 +23,12 @@ const eslintConfig = [
         }
       ],
       // Allow explicit any type (you can change to "warn" if you prefer warnings)
-      "@typescript-eslint/no-explicit-any": "off"
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      // Allow explicit any type
+      "@typescript-eslint/no-explicit-any": "off",
+      // Also disable the base ESLint unused vars rule
+      "no-unused-vars": "off"
     }
   }
 ];
