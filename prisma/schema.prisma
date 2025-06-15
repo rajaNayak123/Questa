@@ -1,16 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Account {
@@ -76,12 +70,12 @@ model Quiz {
 }
 
 model Question {
-  id      String       @id @default(auto()) @map("_id") @db.ObjectId
-  quizId  String       @db.ObjectId
-  quiz    Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  id      String      @id @default(auto()) @map("_id") @db.ObjectId
+  quizId  String      @db.ObjectId
+  quiz    Quiz        @relation(fields: [quizId], references: [id], onDelete: Cascade)
   text    String
   type    QuestionType
-  options String[] // For single-choice questions
+  options String[]    // For single-choice questions
   order   Int
   answers Answer[]
 }
