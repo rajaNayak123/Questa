@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// Correct way to extract `params` in a route handler
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -18,11 +17,11 @@ export async function POST(
       return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
     }
 
-    // Prepare answers for submission
-    const response = await prisma.response.create({ 
+    // Create response with answers
+    await prisma.response.create({ 
       data: { 
-        quizId: quiz.id, 
-        answers: { 
+        quizId: quiz.id,
+        answers: {
           create: Object.entries(answers).map(([questionId, value]) => ({
             questionId,
             value: value as string,
