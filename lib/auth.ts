@@ -1,7 +1,8 @@
+import NextAuth from "next-auth"
 import type { NextAuthOptions } from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { prisma } from "./prisma"
+import { prisma } from "@/lib/prisma" // Adjust this import path
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
@@ -17,22 +18,27 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        })
+        try {
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials.email,
+            },
+          })
 
-        if (!user) {
+          if (!user) {
+            return null
+          }
+
+          // For demo purposes, we'll skip password hashing
+          // In production, you should hash passwords
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          }
+        } catch (error) {
+          console.error("Auth error:", error)
           return null
-        }
-
-        // For demo purposes, we'll skip password hashing
-        // In production, you should hash passwords
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
         }
       },
     }),
@@ -42,7 +48,6 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/auth/signin",
-    // signUp: "/auth/signup",
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -58,4 +63,7 @@ export const authOptions: NextAuthOptions = {
       return session
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 }
+
+export default NextAuth(authOptions)
