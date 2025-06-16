@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// Correct context typings:
+// context should be { params: { id: string } }
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const { answers } = await request.json();
 
+    const quizId = context.params.id;
     const quiz = await prisma.quiz.findUnique({ 
-      where: { id: params.id },
+      where: { id: quizId },
       include: { questions: true },
     });
 
@@ -17,10 +20,9 @@ export async function POST(
       return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
     }
 
-    // Create response with answers
     await prisma.response.create({ 
       data: { 
-        quizId: quiz.id,
+        quizId: quizId,
         answers: {
           create: Object.entries(answers).map(([questionId, value]) => ({
             questionId,
