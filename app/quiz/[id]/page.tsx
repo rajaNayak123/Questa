@@ -2,14 +2,18 @@ import { notFound } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { QuizView } from "@/components/quiz-view"
 
-interface Props {
-  params: { id: string }
-  searchParams: { created?: string }
-}
+export default async function QuizPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ created?: string }>
+}) {
+  const { id } = await params
+  const { created } = await searchParams
 
-export default async function QuizPage({ params, searchParams }: Props) {
   const quiz = await prisma.quiz.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       questions: {
         orderBy: { order: "asc" },
@@ -24,5 +28,5 @@ export default async function QuizPage({ params, searchParams }: Props) {
     notFound()
   }
 
-  return <QuizView quiz={quiz} showCreatedMessage={searchParams.created === "true"} />
+  return <QuizView quiz={quiz} showCreatedMessage={created === "true"} />
 }

@@ -5,19 +5,20 @@ import { prisma } from "@/lib/prisma"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-interface Props {
-  params: { id: string }
-}
-
-export default async function ResponsesPage({ params }: Props) {
+export default async function ResponsesPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
   const session = await getServerSession(authOptions)
+  const { id } = await params
 
   if (!session) {
     redirect("/auth/signin")
   }
 
   const quiz = await prisma.quiz.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       questions: {
         orderBy: { order: "asc" },
