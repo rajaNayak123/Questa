@@ -2,7 +2,7 @@
 
 A modern, full-stack quiz creation and sharing platform built with Next.js, TypeScript, and MongoDB. Create beautiful quizzes, share them with the world, and collect responses effortlessly.
 
-![Questa Live URL](https://questa-tan.vercel.app/)
+[Questa Live URL](https://questa-tan.vercel.app/)
 
 ## ✨ Features
 
