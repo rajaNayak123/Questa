@@ -2,7 +2,7 @@
 
 A modern, full-stack quiz creation and sharing platform built with Next.js, TypeScript, and MongoDB. Create beautiful quizzes, share them with the world, and collect responses effortlessly.
 
-![Questa Preview](https://images.pexels.com/photos/5428836/pexels-photo-5428836.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop)
+![Questa Live URL](https://questa-tan.vercel.app/)
 
 ## ✨ Features
 
@@ -123,6 +123,16 @@ The application uses MongoDB with Prisma ORM. Key models include:
 ### Responses
 - `POST /api/quizzes/[id]/responses` - Submit quiz response
 - `GET /api/quizzes/[id]/responses` - Get quiz responses (authenticated creator only)
+
+
+## 🔐 Sample Login Credentials
+
+For testing purposes, you can create an account using any email and password combination. The current implementation uses a simplified authentication system.
+
+**Sample Test Account:**
+- **Email**: `test@example.com`
+- **Password**: `password123`
+- **Name**: `Test User`
 
 ## 🎯 Usage
 
